@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CFF5E0E3-F458-4053-A599-74F3453C6392}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TK.BaseLib</RootNamespace>
+    <AssemblyName>TK_BaseLib</AssemblyName>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animation\AdvOptions.cs" />
+    <Compile Include="Animation\ControlsMap.cs" />
+    <Compile Include="Animation\KeysCurves\AnimCurve.cs" />
+    <Compile Include="Animation\KeysCurves\Key.cs" />
+    <Compile Include="Animation\ModelInfo.cs" />
+    <Compile Include="Animation\Rescaler.cs" />
+    <Compile Include="Animation\TK_Action.cs" />
+    <Compile Include="Animation\TK_ActionLibrary.cs" />
+    <Compile Include="Geometry\CG_Curve.cs" />
+    <Compile Include="Geometry\CG_Geometry.cs" />
+    <Compile Include="Geometry\CG_GeometryData.cs" />
+    <Compile Include="Geometry\CG_GeometryDataCollection.cs" />
+    <Compile Include="Geometry\CG_PointData.cs" />
+    <Compile Include="Geometry\CG_PolyMesh.cs" />
+    <Compile Include="Geometry\WorkerClasses\DeformerPointWeight.cs" />
+    <Compile Include="ColorHelper.cs" />
+    <Compile Include="Maths3D\Interpolate.cs" />
+    <Compile Include="CustomData\ITGVNode.cs" />
+    <Compile Include="Animation\KeyMap.cs" />
+    <Compile Include="Maths3D\Transform\Position.cs" />
+    <Compile Include="Maths3D\Transform\Rotation.cs" />
+    <Compile Include="Maths3D\Transform\Scale.cs" />
+    <Compile Include="Maths3D\Transform\Transform.cs" />
+    <Compile Include="Maths3D\Vector3.cs" />
+    <Compile Include="PathHelper.cs" />
+    <Compile Include="Picture\PictureHelper.cs" />
+    <Compile Include="Presets\PresetSystem.cs" />
+    <Compile Include="Presets\SaveableData.cs" />
+    <Compile Include="Processes\BenchMarker.cs" />
+    <Compile Include="Processes\PostponedProcess.cs" />
+    <Compile Include="Processes\IPostProcessor.cs" />
+    <Compile Include="CustomData\PresetCollection.cs" />
+    <Compile Include="CustomData\KeyValuePreset.cs" />
+    <Compile Include="Processes\TrackedProcess.cs" />
+    <Compile Include="Presets\SaveablePreset.cs" />
+    <Compile Include="ReflectionHelper.cs" />
+    <Compile Include="SerializationHelper.cs" />
+    <Compile Include="Time\TimeCode.cs" />
+    <Compile Include="TK_INFO.cs" />
+    <Compile Include="Versions\ReleaseInfo.cs" />
+    <Compile Include="CGModel\CustomTypes.cs" />
+    <Compile Include="CGModel\Group.cs" />
+    <Compile Include="CGModel\Model.cs" />
+    <Compile Include="CGModel\Object3D.cs" />
+    <Compile Include="CGModel\Parameter\Parameter.cs" />
+    <Compile Include="CGModel\Parameter\Property.cs" />
+    <Compile Include="CGModel\SceneElmnt.cs" />
+    <Compile Include="CustomData\SceneUserData.cs" />
+    <Compile Include="CustomData\stringNodeSorter.cs" />
+    <Compile Include="CustomData\stringNode.cs" />
+    <Compile Include="Tags\TagManager.cs" />
+    <Compile Include="Tags\TagList.cs" />
+    <Compile Include="Tags\Tag.cs" />
+    <Compile Include="Animation\TimeWarp.cs" />
+    <Compile Include="TypesHelper.cs" />
+    <Compile Include="Versions\Version.cs" />
+    <Compile Include="Versions\VersionInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
