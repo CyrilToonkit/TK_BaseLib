@@ -55,6 +55,10 @@ namespace TK.BaseLib
         {
             return new FileInfo(ExpandedPath(path));
         }
+        public static DirectoryInfo DirectoryInfo(string path)
+        {
+            return new DirectoryInfo(ExpandedPath(path));
+        }
 
         public static void  AddPathSubstitution(string token, string path)
         {
