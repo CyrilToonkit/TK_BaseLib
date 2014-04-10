@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
+using TK.BaseLib.Geometry;
+using TK.BaseLib.Math3D;
 
 //COMMENTS OK
 namespace TK.BaseLib
@@ -515,6 +517,43 @@ namespace TK.BaseLib
             }
 
             return false;
+        }
+
+        // *** CUSTOM TYPES ***
+
+        public static List<CG_Vector3> GeometryToListVector(CG_Geometry inGeo)
+        {
+            List<CG_Vector3> positions = new List<CG_Vector3>();
+
+            double[] pointPos = inGeo.PointPositions;
+            int count = inGeo.PointsCount;
+
+            for (int i = 0; i < count; i++)
+            {
+                positions.Add(new CG_Vector3(pointPos[i*3], pointPos[i*3 + 1], pointPos[i*3 + 2]));
+            }
+
+            return positions;
+        }
+
+        public static CG_Curve ListVectorToGeometry(List<CG_Vector3> inPoints)
+        {
+            CG_Curve crv = new CG_Curve();
+
+            double[] pointPos = new double[3 * inPoints.Count];
+
+            int i = 0;
+            foreach (CG_Vector3 vec in inPoints)
+            {
+                pointPos[i * 3] = vec.X;
+                pointPos[i * 3 + 1] = vec.Y;
+                pointPos[i * 3 + 2] = vec.Z;
+                i++;
+            }
+
+            crv.PointPositions = pointPos;
+
+            return crv;
         }
     }
 }
