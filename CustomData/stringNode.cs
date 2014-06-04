@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 //COMMENTS OK
 namespace TK.BaseLib.CustomData
@@ -167,16 +166,16 @@ namespace TK.BaseLib.CustomData
 
         public string GetFullName(bool useRoot)
         {
-            StringBuilder  fullName = new StringBuilder(Name);
+            string fullName = Name;
 
             stringNode parent = Parent;
             while (parent != null && (parent.Parent != null || useRoot))
             {
-                fullName.Insert(0, parent.Name + "\\");// +fullName;
+                fullName = parent.Name + "\\" + fullName;
                 parent = parent.Parent;
             }
 
-            return fullName.ToString();
+            return fullName;
         }
 
         public List<string> GetList()

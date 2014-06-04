@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,13 +10,14 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TK.BaseLib</RootNamespace>
     <AssemblyName>TK_BaseLib</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +52,11 @@
     <Compile Include="Animation\Rescaler.cs" />
     <Compile Include="Animation\TK_Action.cs" />
     <Compile Include="Animation\TK_ActionLibrary.cs" />
+    <Compile Include="Checking\Check.cs" />
+    <Compile Include="Checking\CheckHelper.cs" />
+    <Compile Include="Checking\CheckList.cs" />
+    <Compile Include="Checking\CheckLogic.cs" />
+    <Compile Include="Checking\CheckParameter.cs" />
     <Compile Include="Geometry\CG_Curve.cs" />
     <Compile Include="Geometry\CG_Geometry.cs" />
     <Compile Include="Geometry\CG_GeometryData.cs" />
