@@ -6,7 +6,59 @@ using System.IO;
 namespace TK.BaseLib
 {
     public static class PathHelper
-    {       
+    {
+        public static void SearchReplace(string search, string replace, string inPath)
+        {
+            SearchReplace(search, replace, inPath, false, false);
+        }
+
+        public static void SearchReplace(string search, string replace, string inPath, bool inFolders, bool inRecursive)
+        {
+            string path = inPath;
+            string trunk = "";
+            string leaf = "";
+
+            if (Path.HasExtension(inPath))//Simple file
+            {
+                trunk = GetFolderPath(inPath);
+                leaf = Path.GetFileName(inPath);
+
+                if (leaf.Contains(search))
+                {
+                    File.Move(inPath, Path.Combine(trunk, leaf.Replace(search, replace)));
+                }
+            }
+            else//Directory
+            {
+                //Rename root folder
+                if (inFolders)
+                {
+                    trunk = GetFolderPath(path);
+                    leaf = Path.GetFileName(path);
+
+                    if (leaf.Contains(search))
+                    {
+                        path = Path.Combine(trunk, leaf.Replace(search, replace));
+                        Directory.Move(inPath, path);
+                    }
+                }
+                //Rename files
+                string[] files = Directory.GetFiles(path);
+                foreach (string file in files)
+                {
+                    SearchReplace(search, replace, file);
+                }
+
+                if (inRecursive)//Rename folders
+                {
+                    string[] directories = Directory.GetDirectories(path);
+                    foreach (string dir in directories)
+                    {
+                        SearchReplace(search, replace, dir, inFolders, true);
+                    }
+                }
+            }
+        }
 
         public static string GetFolderPath(string inPath)
         {
@@ -39,7 +91,6 @@ namespace TK.BaseLib
             }            
             return ret;
         }
-
         public static string ContractedPath(string path)
         {
             string ret = path;
@@ -49,8 +100,6 @@ namespace TK.BaseLib
             }
             return ret;
         }
-
-
         public static FileInfo FileInfo(string path)
         {
             return new FileInfo(ExpandedPath(path));
@@ -75,6 +124,7 @@ namespace TK.BaseLib
                 return sPathSubstitutions;
             }
         }
+
         private static void InitPathSubstitutions()
         {
             lock (lok)
@@ -88,6 +138,7 @@ namespace TK.BaseLib
                 }
             }
         }
+
         private static object lok = new object();
     }
 }

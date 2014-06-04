@@ -4,6 +4,7 @@ using System.Text;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
+using System.Text.RegularExpressions;
 
 namespace TK.BaseLib.Animation
 {
@@ -268,6 +269,33 @@ namespace TK.BaseLib.Animation
             }
 
             return errors;
+        }
+
+        public string GetUniqueName(string inName)
+        {
+            bool unique = GetAction(inName) == null;
+
+            while (!unique)
+            {
+                inName = Increment(inName);
+                unique = GetAction(inName) == null;
+            }
+
+            return inName;
+        }
+
+        public string Increment(string inName)
+        {
+            string root = inName;
+            Match m = Regex.Match(inName, "\\d+$");
+            int number = 0;
+            if (m.Success)
+            {
+                number = Convert.ToInt32(m.Value);
+                root = inName.Substring(0, inName.Length - m.Value.Length);
+            }
+            number++;
+            return string.Format("{0}{1}", root, number);
         }
 
         public virtual string SaveAction(TK_Action action)
