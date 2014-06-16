@@ -135,6 +135,7 @@ namespace TK.BaseLib
                     string tmp = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
                     sPathSubstitutions.Add("%OSCARPATH%", tmp);
                     sPathSubstitutions.Add("%OSCARDATAPATH%", tmp + @"\Data");
+                    sPathSubstitutions.Add("$RIGSPATH", tmp + @"\Data\Rigs");
                 }
             }
         }
