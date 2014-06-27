@@ -79,5 +79,19 @@ namespace TK.BaseLib.Geometry
 
             return a;
         }
+
+        public static List<CG_Vector3> Transform(List<CG_Vector3> points, CG_Transform cG_Transform, double scale)
+        {
+            List<CG_Vector3> transformedPoints = new List<CG_Vector3>();
+
+            foreach (CG_Vector3 point in points)
+            {
+                transformedPoints.Add(new CG_Vector3(point.X * cG_Transform.Scl.X * scale + cG_Transform.Pos.X,
+                                                    point.Y * cG_Transform.Scl.Y * scale + cG_Transform.Pos.Y,
+                                                    point.Z * cG_Transform.Scl.Z * scale + cG_Transform.Pos.Z));
+            }
+
+            return transformedPoints;
+        }
     }
 }
