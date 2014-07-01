@@ -5,6 +5,7 @@ namespace TK.BaseLib.CGModel
     public static class CustomTypes
     {
         static string _elementInfoName = "TK_OSCAR_ElementInfo";
+        static string _initValuesName = "TK_OSCAR_InitValues";
         static string[] _elementInfoTypes = new string[] { "Model", "Root", "Controller", "Deformer", "PlaceHolder", "Output", "Input", "Null" };
         static string[] _guideRules = new string[] { "None", "AsItIs", "Oriented", "Delegate", "OrientedDelegate" };
 
@@ -13,6 +14,14 @@ namespace TK.BaseLib.CGModel
             get {return _elementInfoName;}
         }
 
+        public static string InitValuesName
+        {
+            get { return _initValuesName; }
+        }
+        public static string ParamInitValuesName
+        {
+            get { return "initValues"; }
+        }
         public static string ParamTypeName
         {
             get { return "tk_type"; }
