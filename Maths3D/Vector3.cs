@@ -110,6 +110,13 @@ DescriptionAttribute("Expand to see Vector's X Y Z.")]
         }
 
         #endregion
+
+        public void Negate()
+        {
+            mx *= -1;
+            my *= -1;
+            mz *= -1;
+        }
     }
 
     public class TransVector3 : ExpandableObjectConverter

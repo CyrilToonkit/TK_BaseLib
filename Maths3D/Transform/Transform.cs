@@ -66,6 +66,18 @@ DescriptionAttribute("Expand to see Transformation.")]
             return Trans;
         }
 
+        public static string ToCleanString(double p)
+        {
+            return p.ToString("0.##").Replace(",", ".");
+        }
+
+        public override string ToString()
+        {
+            return ToCleanString(Scl.X) + "," + ToCleanString(Scl.Y) + "," + ToCleanString(Scl.Z) + ";" +
+                       ToCleanString(Pos.X) + "," + ToCleanString(Pos.Y) + "," + ToCleanString(Pos.Z) + ";" +
+                       ToCleanString(Rot.X) + "," + ToCleanString(Rot.Y) + "," + ToCleanString(Rot.Z);
+        }
+
         #region ISerializable Members
 
         public CG_Transform(SerializationInfo info, StreamingContext ctxt)
@@ -166,6 +178,5 @@ DescriptionAttribute("Expand to see Transformation.")]
             }
             return base.ConvertFrom(context, culture, value);
         }
-
     }
 }
