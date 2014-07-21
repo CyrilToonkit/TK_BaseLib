@@ -428,6 +428,37 @@ namespace TK.BaseLib
         }
 
         /// <summary>
+        /// Join a string List as a string
+        /// </summary>
+        /// <param name="inList">List of string to be joined</param>
+        /// <returns>the joined string</returns>
+        public static string Join(string[] inList, string inSeparator)
+        {
+            string joined = "";
+            if (inList.Length > 0)
+            {
+                foreach (string s in inList)
+                {
+                    joined += s + inSeparator;
+                }
+
+                joined = joined.Substring(0, joined.Length - 1);
+            }
+
+            return joined;
+        }
+
+        /// <summary>
+        /// Join a string List as a string
+        /// </summary>
+        /// <param name="inList">List of string to be joined</param>
+        /// <returns>the joined string, comma separated</returns>
+        public static string Join(string[] inList)
+        {
+            return Join(inList, ",");
+        }
+
+        /// <summary>
         /// Copy a string List to a new one
         /// </summary>
         /// <param name="inSource">The source list</param>

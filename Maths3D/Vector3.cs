@@ -81,6 +81,11 @@ DescriptionAttribute("Expand to see Vector's X Y Z.")]
                 (X * vec2.Y) - (vec2.X * Y));
         }
 
+        public double Length()
+        {
+            return Math.Sqrt(X * X + Y * Y + Z * Z);
+        }
+
         // Returns a new vector with the contents
         // multiplied together.
         public static CG_Vector3 operator *(CG_Vector3 vec1, CG_Vector3 vec2)
@@ -90,6 +95,17 @@ DescriptionAttribute("Expand to see Vector's X Y Z.")]
             if (vec2 == null)
                 throw new ArgumentNullException("vec2");
             return new CG_Vector3(vec1.X * vec2.X, vec1.Y * vec2.Y, vec1.Z * vec2.Z);
+        }
+
+        // Returns a new vector with the contents
+        // substracted together.
+        public static CG_Vector3 operator -(CG_Vector3 vec1, CG_Vector3 vec2)
+        {
+            if (vec1 == null)
+                throw new ArgumentNullException("vec1");
+            if (vec2 == null)
+                throw new ArgumentNullException("vec2");
+            return new CG_Vector3(vec1.X - vec2.X, vec1.Y - vec2.Y, vec1.Z - vec2.Z);
         }
 
         #region ISerializable Members
