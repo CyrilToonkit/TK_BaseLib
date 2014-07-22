@@ -78,10 +78,13 @@
     <Compile Include="Presets\PresetSystem.cs" />
     <Compile Include="Presets\SaveableData.cs" />
     <Compile Include="Processes\BenchMarker.cs" />
+    <Compile Include="Processes\CallData.cs" />
+    <Compile Include="Processes\TracedCall.cs" />
     <Compile Include="Processes\PostponedProcess.cs" />
     <Compile Include="Processes\IPostProcessor.cs" />
     <Compile Include="CustomData\PresetCollection.cs" />
     <Compile Include="CustomData\KeyValuePreset.cs" />
+    <Compile Include="Processes\Tracer.cs" />
     <Compile Include="Processes\TrackedProcess.cs" />
     <Compile Include="Presets\SaveablePreset.cs" />
     <Compile Include="ReflectionHelper.cs" />

@@ -26,15 +26,24 @@ namespace TK.BaseLib.Processes
         /// TimeSpan for the process
         /// </summary>
         TimeSpan span;
-
+        public TimeSpan TimeSpan
+        {
+            get
+            {
+                return span;
+            }
+        }
         // == METHODS =====================================================================
 
         /// <summary>
         /// Start the timer
         /// </summary>
-        public void Start()
+        public DateTime Start()
         {
-            Before = DateTime.Now.Ticks;
+            DateTime now = DateTime.Now;
+            Before = now.Ticks;
+
+            return now;
         }
 
         /// <summary>
