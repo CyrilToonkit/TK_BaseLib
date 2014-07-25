@@ -32,7 +32,22 @@ namespace TK.BaseLib.Processes
             }
         }
 
-        public TimeSpan MeanDuration
+        public TimeSpan TotalDuration
+        {
+            get
+            {
+                long ticks = 0;
+
+                foreach (TimeSpan ts in _durations)
+                {
+                    ticks += ts.Ticks;
+                }
+
+                return new TimeSpan(ticks);
+            }
+        }
+
+        public TimeSpan AverageDuration
         {
             get
             {

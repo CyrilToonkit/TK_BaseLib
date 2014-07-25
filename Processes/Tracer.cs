@@ -7,6 +7,8 @@ namespace TK.BaseLib.Processes
 {
     public class Tracer
     {
+        BenchMarker bm = new BenchMarker();
+
         private Tracer()
         {
 
@@ -31,7 +33,19 @@ namespace TK.BaseLib.Processes
         public bool Active
         {
             get { return _active; }
-            set { _active = value; }
+            set
+            {
+                _active = value;
+
+                if (value)
+                {
+                    bm.Start();
+                }
+                else
+                {
+                    bm.Stop();
+                }
+            }
         }
 
         List<TracedCall> _callStack = new List<TracedCall>();
@@ -90,6 +104,8 @@ namespace TK.BaseLib.Processes
         public string GetText()
         {
             //Fill callData
+            long totalTicks = 0;
+            
             foreach (TracedCall call in _callStack)
             {
                 if (!_calls.ContainsKey(call.Name))
@@ -97,20 +113,23 @@ namespace TK.BaseLib.Processes
                     CallData callD = new CallData(call.Name);
                     _calls.Add(call.Name, callD);
                 }
-
+                totalTicks += call.Duration.Ticks;
                 _calls[call.Name].Add(call);
             }
+
+            TimeSpan totalDuration = new TimeSpan(totalTicks);
 
             if (_calls.Count == 0)
             {
                 return "No values...\n";
             }
 
-            string text = "";
+            string text = string.Format("\n *** Commands diagnostic : {0} called in {1:0.0} seconds ({2:0} cmds/s). Total time = {3:0.0} seconds ({4:0.000} seconds processing) ***\n", _callStack.Count, totalDuration.TotalSeconds, _callStack.Count / totalDuration.TotalSeconds, bm.Seconds, bm.Seconds - totalDuration.TotalSeconds);
 
             foreach (CallData data in _calls.Values)
             {
-                text += string.Format("{0} called {1} times, {2:0.000}s mean ({3:0.000}s < {4:0.000}s)\n", data.Name, data.NbCalls, data.MeanDuration.TotalSeconds, data.MinimumDuration.TotalSeconds, data.MaximumDuration.TotalSeconds);
+                double totalSeconds = data.TotalDuration.TotalSeconds;
+                text += string.Format("{0,-20} called {1} times, {2:0.000}s avg, {3:0.000}s total={4:0.0}% ({5:0.000}s < {6:0.000}s)\n", data.Name, data.NbCalls, data.AverageDuration.TotalSeconds, totalSeconds, 100 * totalSeconds / totalDuration.TotalSeconds, data.MinimumDuration.TotalSeconds, data.MaximumDuration.TotalSeconds);
             }
 
             return text;
@@ -118,7 +137,7 @@ namespace TK.BaseLib.Processes
 
         public void SaveCsv(string inPath)
         {
-            var csv = new StringBuilder();
+            StringBuilder csv = new StringBuilder();
             csv.Append("Cmd,Start,Duration\n");
 
             foreach (TracedCall call in _callStack)
@@ -127,6 +146,12 @@ namespace TK.BaseLib.Processes
             }
 
             File.WriteAllText(inPath, csv.ToString());
+        }
+
+        public void Clear()
+        {
+            _callStack.Clear();
+            _calls.Clear();
         }
     }
 }
