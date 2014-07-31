@@ -138,11 +138,11 @@ namespace TK.BaseLib.Processes
         public void SaveCsv(string inPath)
         {
             StringBuilder csv = new StringBuilder();
-            csv.Append("Cmd,Start,Duration\n");
+            csv.Append("Cmd;Start;Duration\n");
 
             foreach (TracedCall call in _callStack)
             {
-                csv.Append(string.Format("{0},{1},{2}\n", call.Name, call.Start, call.Duration));
+                csv.Append(string.Format("{0};{1};{2:0.000}\n", call.Name, call.Start, call.Duration.TotalSeconds));
             }
 
             File.WriteAllText(inPath, csv.ToString());
