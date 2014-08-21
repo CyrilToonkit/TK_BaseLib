@@ -60,6 +60,11 @@ namespace TK.BaseLib.CGModel
             get { return "tk_guideParent"; }
         }
 
+        public static string GeometriesName
+        {
+            get { return "Geometries"; }
+        }
+
         public static string[] ElementInfoTypes
         {
             get { return _elementInfoTypes; }

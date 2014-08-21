@@ -411,7 +411,7 @@ namespace TK.BaseLib
                     joined += s + inSeparator;
                 }
 
-                joined = joined.Substring(0, joined.Length - 1);
+                joined = joined.Substring(0, joined.Length - inSeparator.Length);
             }
 
             return joined;
