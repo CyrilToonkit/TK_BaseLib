@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Animation\AdvOptions.cs" />
     <Compile Include="Animation\ControlsMap.cs" />
+    <Compile Include="Animation\KeysCurves\Animation.cs" />
     <Compile Include="Animation\KeysCurves\AnimCurve.cs" />
     <Compile Include="Animation\KeysCurves\Key.cs" />
     <Compile Include="Animation\ModelInfo.cs" />

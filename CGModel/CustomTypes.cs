@@ -7,7 +7,7 @@ namespace TK.BaseLib.CGModel
         static string _elementInfoName = "TK_OSCAR_ElementInfo";
         static string _initValuesName = "TK_OSCAR_InitValues";
         static string _guideElementName = "TK_OSCAR_GuideElement";
-        static string[] _elementInfoTypes = new string[] { "Model", "Root", "Controller", "Deformer", "PlaceHolder", "Output", "Input", "Null" };
+        static string[] _elementInfoTypes = new string[] { "Model", "Root", "Input", "Output","Null", "Controller", "Deformer", "PlaceHolder"};
         static string[] _guideRules = new string[] { "None", "AsItIs", "Oriented", "Delegate", "OrientedDelegate" };
 
         public static string ElementInfoName

@@ -111,7 +111,14 @@ namespace TK.BaseLib
 
         public static void  AddPathSubstitution(string token, string path)
         {
-            PathSubstitutions.Add(token, path);
+            if (PathSubstitutions.ContainsKey(token))
+            {
+                PathSubstitutions[token] = path;
+            }
+            else
+            {
+                PathSubstitutions.Add(token, path);
+            }
         }
 
         private static Dictionary<string, string> sPathSubstitutions = null;

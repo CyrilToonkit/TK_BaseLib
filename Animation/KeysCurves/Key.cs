@@ -6,6 +6,10 @@ namespace TK.BaseLib.Animation.KeysCurves
 {
     public class Key : IComparable
     {
+        public Key()
+        {
+        }
+
         public Key(double inTime, object inValue)
         {
             _time = inTime;
@@ -24,8 +28,22 @@ namespace TK.BaseLib.Animation.KeysCurves
             set { _value = value; }
         }
 
+        public Key BTangent
+        {
+            get { return _bTangent; }
+            set { _bTangent = value; }
+        }
+
+        public Key ATangent
+        {
+            get { return _aTangent; }
+            set { _aTangent = value; }
+        }
+
         object _value;
         double _time;
+        Key _bTangent;
+        Key _aTangent;
 
         #region IComparable Members
 

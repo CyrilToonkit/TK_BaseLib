@@ -6,8 +6,28 @@ namespace TK.BaseLib.Animation.KeysCurves
 {
     public class AnimCurve
     {
-        List<Key> _keys = new List<Key>();
+        string _channelName = "unkwnown";
+        public string ChannelName
+        {
+            get { return _channelName; }
+            set { _channelName = value; }
+        }
+        string _channelAccessName = "unkwnown";
+        public string ChannelAccessName
+        {
+            get { return _channelAccessName; }
+            set { _channelAccessName = value; }
+        }
+        string _channelParent = "unkwnown";
+        public string ChannelParent
+        {
+            get { return _channelParent; }
+            set { _channelParent = value; }
+        }
 
+        
+
+        List<Key> _keys = new List<Key>();
         public List<Key> Keys
         {
             get { return _keys; }
