@@ -133,6 +133,11 @@ DescriptionAttribute("Expand to see Vector's X Y Z.")]
             my *= -1;
             mz *= -1;
         }
+
+        public CG_Vector3 Copy()
+        {
+            return new CG_Vector3(X, Y, Z);
+        }
     }
 
     public class TransVector3 : ExpandableObjectConverter
