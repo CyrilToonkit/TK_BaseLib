@@ -55,5 +55,21 @@ namespace TK.BaseLib.Animation.KeysCurves
 
             return keyValues;
         }
+
+        public void Offset(double inTimeOffset)
+        {
+            foreach (Key key in _keys)
+            {
+                key.Time += inTimeOffset;
+            }
+        }
+
+        public void Retime(double inRetime, double inRef)
+        {
+            foreach (Key key in _keys)
+            {
+                key.Time = (key.Time - inRef) / inRetime + inRef;
+            }
+        }
     }
 }
