@@ -4,8 +4,24 @@ using System.Text;
 
 namespace TK.BaseLib.Animation.KeysCurves
 {
+    public enum Extrapolations
+    {
+        Constant, Linear, Cycle, RelativeCycle
+    }
+
     public class AnimCurve
     {
+        public AnimCurve()
+        {
+        }
+
+        public AnimCurve(string inChannelName, string inChannelAccessName, string inChannelParent)
+        {
+            _channelName = inChannelName;
+            _channelAccessName = inChannelAccessName;
+            _channelParent = inChannelParent;
+        }
+
         string _channelName = "unkwnown";
         public string ChannelName
         {
@@ -25,7 +41,26 @@ namespace TK.BaseLib.Animation.KeysCurves
             set { _channelParent = value; }
         }
 
-        
+        object _staticValue = null;
+        public object StaticValue
+        {
+            get { return _staticValue; }
+            set { _staticValue = value; }
+        }
+
+        Extrapolations _bExtrapolation = Extrapolations.Linear;
+        public Extrapolations BExtrapolation
+        {
+            get { return _bExtrapolation; }
+            set { _bExtrapolation = value; }
+        }
+
+        Extrapolations _aExtrapolation = Extrapolations.Linear;
+        public Extrapolations AExtrapolation
+        {
+            get { return _aExtrapolation; }
+            set { _aExtrapolation = value; }
+        }
 
         List<Key> _keys = new List<Key>();
         public List<Key> Keys
@@ -38,9 +73,19 @@ namespace TK.BaseLib.Animation.KeysCurves
             }
         }
 
+        public void AddKey(double inTime, object inValue, double inbTangentTime, object inbTangentValue, double inaTangentTime, object inaTangentValue, Interpolations inInterpolation)
+        {
+            Keys.Add(new Key(inTime, inValue, inbTangentTime, inbTangentValue, inaTangentTime, inaTangentValue, inInterpolation));
+        }
+
+        public void AddKey(double inTime, object inValue, double inbTangentTime, object inbTangentValue, double inaTangentTime, object inaTangentValue)
+        {
+            Keys.Add(new Key(inTime, inValue, inbTangentTime, inbTangentValue, inaTangentTime, inaTangentValue));
+        }
+
         public void AddKey(double inTime, object inValue)
         {
-            Keys.Add(new Key(inTime, inValue));
+            Keys.Add(new Key(inTime, inValue, 0.0, 0.0, 0.0, 0.0));
         }
 
         public object[] GetObjectArray()
@@ -60,7 +105,7 @@ namespace TK.BaseLib.Animation.KeysCurves
         {
             foreach (Key key in _keys)
             {
-                key.Time += inTimeOffset;
+                key.Offset(inTimeOffset);
             }
         }
 
@@ -68,7 +113,15 @@ namespace TK.BaseLib.Animation.KeysCurves
         {
             foreach (Key key in _keys)
             {
-                key.Time = (key.Time - inRef) / inRetime + inRef;
+                key.Retime(inRetime, inRef);
+            }
+        }
+
+        public void Scale(double inScale, double inRef)
+        {
+            foreach (Key key in _keys)
+            {
+                key.Scale(inScale, inRef);
             }
         }
     }
