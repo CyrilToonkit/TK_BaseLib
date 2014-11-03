@@ -425,7 +425,7 @@ namespace TK.BaseLib.Animation
 
         public string GetName()
         {
-            return "Actions Library (" + GetRepository() + ")";
+            return "MimeTiK V1.2 '" + GetRepository() + "'";
         }
     }
 }

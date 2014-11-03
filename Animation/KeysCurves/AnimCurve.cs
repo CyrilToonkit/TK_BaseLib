@@ -48,14 +48,14 @@ namespace TK.BaseLib.Animation.KeysCurves
             set { _staticValue = value; }
         }
 
-        Extrapolations _bExtrapolation = Extrapolations.Linear;
+        Extrapolations _bExtrapolation = Extrapolations.Constant;
         public Extrapolations BExtrapolation
         {
             get { return _bExtrapolation; }
             set { _bExtrapolation = value; }
         }
 
-        Extrapolations _aExtrapolation = Extrapolations.Linear;
+        Extrapolations _aExtrapolation = Extrapolations.Constant;
         public Extrapolations AExtrapolation
         {
             get { return _aExtrapolation; }

@@ -44,10 +44,15 @@ namespace TK.BaseLib.Animation.KeysCurves
             double first = double.MaxValue;
             foreach (AnimCurve curve in _curves)
             {
-                if (curve.Keys[0].Time < first)
+                if(curve.Keys.Count > 0 && curve.Keys[0].Time < first)
                 {
                     first = curve.Keys[0].Time;
                 }
+            }
+
+            if (first == double.MaxValue)
+            {
+                return 0.0;
             }
 
             return first;
