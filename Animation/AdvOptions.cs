@@ -69,7 +69,7 @@ namespace TK.BaseLib.Animation
             set { forcedResizing = value; }
         }
 
-        bool useNativeFormats = true;
+        bool useNativeFormats = false;
         public bool UseNativeFormats
         {
             get { return useNativeFormats; }
