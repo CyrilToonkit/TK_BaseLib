@@ -214,6 +214,66 @@ namespace TK.BaseLib.Geometry
                         InternalValues.SetValue(value[i], Dim0, Dim1);
                     }
                 }
+
+                ConsolidateFields();
+            }
+        }
+
+        private void ConsolidateFields()
+        {
+            Dictionary<string, List<double>> fieldsValues = new Dictionary<string, List<double>>();
+
+            int fieldIndex = 0;
+            bool needsUpdate = false;
+
+            //Force an update of InternalValues
+            Array mockValues = InternalValues;
+
+            foreach (string field in mFields)
+            {
+                List<double> fieldValues = new List<double>();
+                for (int i = 0; i < PointCount; i++)
+                {
+                    fieldValues.Add((double)mValues.GetValue(fieldIndex, i));
+                }
+
+                if (fieldsValues.ContainsKey(field))
+                {
+                    needsUpdate = true;
+
+                    //Add field values to stored duplicate
+                    List<double> oldValues = fieldsValues[field];
+                    int valIndex = 0;
+                    foreach (double dupValue in fieldValues)
+                    {
+                        oldValues[valIndex] += dupValue;
+                        valIndex++;
+                    }
+
+                    fieldsValues[field] = oldValues;
+                }
+                else
+                {
+
+                    fieldsValues.Add(field, fieldValues);
+                }
+
+                fieldIndex++;
+            }
+
+            if(needsUpdate)
+            {
+                mFields = new List<string>(fieldsValues.Keys);
+                mLengths[0] = mFields.Count;
+                mValues = Array.CreateInstance(typeof(object), Lengths);
+
+                for (int i = 0; i < mFields.Count; i++ )
+                {
+                    for (int j = 0; j < fieldsValues[mFields[i]].Count; j++)
+                    {
+                        mValues.SetValue(fieldsValues[mFields[i]][j], i, j);
+                    }
+                }
             }
         }
 
