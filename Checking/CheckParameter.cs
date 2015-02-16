@@ -43,7 +43,6 @@ namespace TK.BaseLib.Checking
                         }
                         break;
                     case ParameterTypes.Bool:
-                        bool boolValue = false;
                         _value = Boolean.Parse(value);
                         break;
                     case ParameterTypes.Double:

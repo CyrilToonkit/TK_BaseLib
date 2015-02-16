@@ -273,7 +273,7 @@ namespace TK.BaseLib.Time
                 outTimeCode = TimeCode.Parse(inStrTimeCode);
                 return true;
             }
-            catch (Exception e) { outTimeCode = new TimeCode(); return false; }
+            catch (Exception) { outTimeCode = new TimeCode(); return false; }
         }
 
         public static bool TryParse(string inStrTimeCode, float inFps, out TimeCode outTimeCode)
@@ -283,7 +283,7 @@ namespace TK.BaseLib.Time
                 outTimeCode = TimeCode.Parse(inStrTimeCode, inFps);
                 return true;
             }
-            catch (Exception e) { outTimeCode = new TimeCode(); return false; }
+            catch (Exception) { outTimeCode = new TimeCode(); return false; }
         }
 
         public string ToLongString()

@@ -171,10 +171,10 @@ namespace TK.BaseLib
                 if (sPathSubstitutions == null)
                 {
                     sPathSubstitutions = new Dictionary<string, string>();
-                    string tmp = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
+                    string tmp = AppDomain.CurrentDomain.BaseDirectory;
                     sPathSubstitutions.Add("%OSCARPATH%", tmp);
-                    sPathSubstitutions.Add("%OSCARDATAPATH%", tmp + @"\Data");
-                    sPathSubstitutions.Add("$RIGSPATH", tmp + @"\Data\Rigs");
+                    sPathSubstitutions.Add("%OSCARDATAPATH%", Path.Combine( tmp, "Data"));
+                    sPathSubstitutions.Add("$RIGSPATH", Path.Combine(tmp, "Data\\Rigs"));
                 }
             }
         }

@@ -10,7 +10,6 @@ namespace TK.BaseLib.Processes
         string _name = "VOID";
         DateTime _start = DateTime.Now;
         DateTime _end = DateTime.Now;
-        bool _valid = false;
 
         public TracedCall(string cmdname)
         {
@@ -20,7 +19,6 @@ namespace TK.BaseLib.Processes
         internal void Stop()
         {
             _end = DateTime.Now;
-            _valid = true;
         }
 
         public DateTime Start
