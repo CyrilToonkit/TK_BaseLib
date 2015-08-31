@@ -27,6 +27,14 @@ namespace TK.BaseLib.CGModel
         {
             get { return "initValues"; }
         }
+        public static string ParamPreScriptName
+        {
+            get { return "preScript"; }
+        }
+        public static string ParamPostScriptName
+        {
+            get { return "postScript"; }
+        }
         public static string ParamTypeName
         {
             get { return "tk_type"; }

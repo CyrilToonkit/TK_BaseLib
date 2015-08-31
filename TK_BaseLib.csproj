@@ -88,6 +88,7 @@
     <Compile Include="Processes\Tracer.cs" />
     <Compile Include="Processes\TrackedProcess.cs" />
     <Compile Include="Presets\SaveablePreset.cs" />
+    <Compile Include="PropertySorter.cs" />
     <Compile Include="ReflectionHelper.cs" />
     <Compile Include="SerializationHelper.cs" />
     <Compile Include="Time\TimeCode.cs" />

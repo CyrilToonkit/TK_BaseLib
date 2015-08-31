@@ -130,82 +130,88 @@ namespace TK.BaseLib.Animation
             if (!string.IsNullOrEmpty(sRepo))
             {
                 DirectoryInfo repo = new DirectoryInfo(sRepo);
-                if (repo.Exists)
+                if (!repo.Exists)
                 {
-                    //Control Maps
-                    FileInfo MapsFile = new FileInfo(sRepo + "\\ControlMaps.xml");
-
-                    if (MapsFile.Exists)
+                    try
                     {
-                        FileStream stream = null;
-                        stream = MapsFile.OpenRead();
-                        try
-                        {
-                            Maps = (ControlsMap)controlsMapSerializer.Deserialize(stream);
-                        }
-                        catch (Exception e) { errors += "Load xml " + e.Message; }
-
-                        stream.Close();
+                        repo.Create();
                     }
+                    catch (Exception e) { errors += "Action Library : Create folder error (" + e.Message + ")"; }
+                }
 
-                    if (!Maps.Initialize())
+                //Control Maps
+                FileInfo MapsFile = new FileInfo(sRepo + "\\ControlMaps.xml");
+
+                if (MapsFile.Exists)
+                {
+                    FileStream stream = null;
+                    stream = MapsFile.OpenRead();
+                    try
                     {
-                        SaveMap();
+                        Maps = (ControlsMap)controlsMapSerializer.Deserialize(stream);
                     }
+                    catch (Exception e) { errors += "Load xml " + e.Message; }
 
-                    //Model infos
-                    ModelInfos.Clear();
+                    stream.Close();
+                }
 
-                    DirectoryInfo modelinfosFile = new DirectoryInfo(sRepo + "\\ModelInfos");
-                    if (modelinfosFile.Exists)
+                if (!Maps.Initialize())
+                {
+                    SaveMap();
+                }
+
+                //Model infos
+                ModelInfos.Clear();
+
+                DirectoryInfo modelinfosFile = new DirectoryInfo(sRepo + "\\ModelInfos");
+                if (modelinfosFile.Exists)
+                {
+                    FileInfo[] infos = modelinfosFile.GetFiles("*.xml");
+                    if (infos.Length > 0)
                     {
-                        FileInfo[] infos = modelinfosFile.GetFiles("*.xml");
-                        if (infos.Length > 0)
+                        foreach (FileInfo info in infos)
                         {
-                            foreach (FileInfo info in infos)
+                            FileStream stream = null;
+                            stream = info.OpenRead();
+                            try
                             {
-                                FileStream stream = null;
-                                stream = info.OpenRead();
-                                try
+                                ModelInfo modelInfo = (ModelInfo)modelInfosSerializer.Deserialize(stream);
+                                modelInfo.Name = info.Name.Substring(0, info.Name.Length - 4);
+
+                                if (modelInfo.Name == "REF")
                                 {
-                                    ModelInfo modelInfo = (ModelInfo)modelInfosSerializer.Deserialize(stream);
-                                    modelInfo.Name = info.Name.Substring(0, info.Name.Length - 4);
-
-                                    if (modelInfo.Name == "REF")
-                                    {
-                                        RefModelInfo = modelInfo;
-                                    }
-                                    else
-                                    {
-                                        ModelInfos.Add(modelInfo.Name, modelInfo);
-                                    }
+                                    RefModelInfo = modelInfo;
                                 }
-                                catch (Exception e) { errors += "Load Animation Meta " + e.Message; }
-
-                                stream.Close();
+                                else
+                                {
+                                    ModelInfos.Add(modelInfo.Name, modelInfo);
+                                }
                             }
+                            catch (Exception e) { errors += "Load Animation Meta " + e.Message; }
+
+                            stream.Close();
                         }
                     }
-                    else
+                }
+                else
+                {
+                    try
                     {
-                        try
-                        {
-                            modelinfosFile.Create();
-                        }
-                        catch (Exception e) { errors += "Action Library : Create folder error (" + e.Message + ")"; }
+                        modelinfosFile.Create();
                     }
+                    catch (Exception e) { errors += "Action Library : Create folder error (" + e.Message + ")"; }
+                }
 
-                    if (RefModelInfo == null)
-                    {
-                        //Create "Ref" modelInfos
-                        RefModelInfo = new ModelInfo("REF");
-                        Rescaler spine = new Rescaler("SpineScaler", "#SPINETOP", "#SPINEBOTTOM", 1);
-                        spine.AffectedControls.Add("#SPINEIKTOP");
-                        spine.AffectedControls.Add("#SPINEIKBOTTOM");
-                        RefModelInfo.Scalers.Add(spine);
+                if (RefModelInfo == null)
+                {
+                    //Create "Ref" modelInfos
+                    RefModelInfo = new ModelInfo("REF");
+                    Rescaler spine = new Rescaler("SpineScaler", "#SPINETOP", "#SPINEBOTTOM", 1);
+                    spine.AffectedControls.Add("#SPINEIKTOP");
+                    spine.AffectedControls.Add("#SPINEIKBOTTOM");
+                    RefModelInfo.Scalers.Add(spine);
 
-                        SaveModelInfo(RefModelInfo);
-                    }
+                    SaveModelInfo(RefModelInfo);
                 }
             }
 

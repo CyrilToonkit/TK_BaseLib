@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 //COMMENTS OK
 namespace TK.BaseLib.CustomData
@@ -20,6 +21,19 @@ namespace TK.BaseLib.CustomData
             name = inName;
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="inName">Name of the node</param>
+        public stringNode(string inName, int inIconIndex, Color inBackColor, Color inForeColor  )
+        {
+            name = inName;
+            iconIndex = inIconIndex;
+            backColor = inBackColor;
+            foreColor = inForeColor;
+        }
+
+        //stringNode(rootComp.FullName + " (Compound)", 0, Manager.NodalPrefs.DefaultCompoundColor, Manager.NodalPrefs.NodeLabelFontColor)
         // == MEMBERS =====================================================================
 
         /// <summary>
@@ -33,6 +47,27 @@ namespace TK.BaseLib.CustomData
         {
             get { return name; }
             set { name = value; }
+        }
+
+        int iconIndex = -1;
+        public int IconIndex
+        {
+            get { return iconIndex; }
+            set { iconIndex = value; }
+        }
+
+        Color backColor = Color.Transparent;
+        public Color BackColor
+        {
+            get { return backColor; }
+            set { backColor = value; }
+        }
+
+        Color foreColor = Color.Transparent;
+        public Color ForeColor
+        {
+            get { return foreColor; }
+            set { foreColor = value; }
         }
 
         /// <summary>
