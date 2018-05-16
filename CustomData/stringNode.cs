@@ -49,6 +49,13 @@ namespace TK.BaseLib.CustomData
             set { name = value; }
         }
 
+        bool active = true;
+        public bool Active
+        {
+            get { return active; }
+            set { active = value; }
+        }
+
         int iconIndex = -1;
         public int IconIndex
         {
@@ -125,6 +132,68 @@ namespace TK.BaseLib.CustomData
         }
 
         // == METHODS =====================================================================
+
+        public stringNode AddPath(string value)
+        {
+            string[] splittedValues = value.Split('/');
+
+            stringNode parentNode = this;
+            stringNode node = null;
+            foreach (string splittedValue in splittedValues)
+            {
+                node = parentNode.Get(splittedValue);
+                if (node == null)
+                {
+                    node = parentNode.AddNode(splittedValue);
+                }
+
+                parentNode = node;
+            }
+
+            return node;
+        }
+
+        public bool RemovePath(string value)
+        {
+            string[] splittedValues = value.Split('/');
+
+            stringNode parentNode = this;
+            stringNode node = null;
+            foreach (string splittedValue in splittedValues)
+            {
+                node = parentNode.Get(splittedValue);
+                if (node != null)
+                {
+                    parentNode = node;
+                }
+            }
+
+            if (node != null)
+            {
+                node.Parent.Nodes.Remove(node);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Get a subnode by its name
+        /// </summary>
+        /// <param name="inName">Name of the Node</param>
+        /// <returns>The found node or null</returns>
+        public stringNode Get(string inName)
+        {
+            foreach (stringNode node in Nodes)
+            {
+                if (node.Name == inName)
+                {
+                    return node;
+                }
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Add a subnode to this node
@@ -265,5 +334,6 @@ namespace TK.BaseLib.CustomData
                 node.Collect(nodes);
             }
         }
+
     }
 }

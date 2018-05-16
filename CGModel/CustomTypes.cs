@@ -10,6 +10,9 @@ namespace TK.BaseLib.CGModel
         static string[] _elementInfoTypes = new string[] { "Model", "Root", "Input", "Output","Null", "Controller", "Deformer", "PlaceHolder"};
         static string[] _guideRules = new string[] { "None", "AsItIs", "Oriented", "Delegate", "OrientedDelegate" };
 
+        static string[] _kinematics = new string[] { "t", "r", "s"};
+        static string[] _axis = new string[] { "x", "y", "z" };
+
         public static string ElementInfoName
         {
             get {return _elementInfoName;}
@@ -83,6 +86,16 @@ namespace TK.BaseLib.CGModel
             get { return _guideRules; }
         }
 
+        public static string[] Kinematics
+        {
+            get { return _kinematics; }
+        }
+
+        public static string[] Axis
+        {
+            get { return _axis; }
+        }
+
         public static int GuideRule(string inGuideRule)
         {
             int rule = 0;
@@ -96,6 +109,34 @@ namespace TK.BaseLib.CGModel
             }
             return 0;
         }
+
+        public static string GuideHelpers
+        {
+            get { return "guideHelpers"; }
+        }
+    }
+
+    public enum Kinematics
+    { Translation, Rotation, Scaling }
+
+    public enum Axis
+    { X, Y, Z }
+
+    public struct Channel
+    {
+        public Channel(Kinematics inKine, Axis inAxis)
+        {
+            this.kinematic = inKine;
+            this.axis = inAxis;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0}{1}", CustomTypes.Kinematics[(int)kinematic], CustomTypes.Axis[(int)axis]);
+        }
+
+        public Kinematics kinematic;
+        public Axis axis;
     }
 
     public enum AffectType
@@ -111,5 +152,5 @@ namespace TK.BaseLib.CGModel
     { OneToOne, CurveInterpolated, Custom }
 
     public enum ConstraintType
-    { Position, Orientation, Direction, Pose, Scaling, Pin }
+    { Position, Orientation, Direction, Pose, Scaling, Pin, Surface }
 }

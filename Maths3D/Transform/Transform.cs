@@ -47,6 +47,11 @@ DescriptionAttribute("Expand to see Transformation.")]
             get { return (Pos.Null && Rot.Null && Scl.Identity); }
         }
 
+        public bool FuzzyEquals(CG_Transform trans)
+        {
+            return Pos.FuzzyEquals(trans.Pos) && Rot.FuzzyEquals(trans.Rot) && Scl.FuzzyEquals(trans.Scl);
+        }
+
         public CG_Transform Copy()
         {
             CG_Transform Trans = new CG_Transform();
@@ -76,6 +81,49 @@ DescriptionAttribute("Expand to see Transformation.")]
             return ToCleanString(Scl.X) + "," + ToCleanString(Scl.Y) + "," + ToCleanString(Scl.Z) + ";" +
                        ToCleanString(Pos.X) + "," + ToCleanString(Pos.Y) + "," + ToCleanString(Pos.Z) + ";" +
                        ToCleanString(Rot.X) + "," + ToCleanString(Rot.Y) + "," + ToCleanString(Rot.Z);
+        }
+
+        // Returns a new transform with the contents
+        // added together.
+        public static CG_Transform operator +(CG_Transform trans1, CG_Transform trans2)
+        {
+            if (trans1 == null)
+                throw new ArgumentNullException("trans1");
+            if (trans2 == null)
+                throw new ArgumentNullException("trans2");
+            CG_Transform addedTrans = new CG_Transform();
+            addedTrans.Pos = trans1.Pos + trans2.Pos;
+            addedTrans.Rot = trans1.Rot + trans2.Rot;
+            addedTrans.Scl = trans1.Scl * trans2.Scl;
+            return addedTrans;
+        }
+
+        // Returns a new transform with the contents
+        // substracted together.
+        public static CG_Transform operator -(CG_Transform trans1, CG_Transform trans2)
+        {
+            if (trans1 == null)
+                throw new ArgumentNullException("trans1");
+            if (trans2 == null)
+                throw new ArgumentNullException("trans2");
+            CG_Transform addedTrans = new CG_Transform();
+            addedTrans.Pos = trans1.Pos - trans2.Pos;
+            addedTrans.Rot = trans1.Rot - trans2.Rot;
+            addedTrans.Scl = trans1.Scl / trans2.Scl;
+            return addedTrans;
+        }
+
+        // Returns a new transform with the contents
+        // multiplied by scalar together.
+        public static CG_Transform operator *(CG_Transform trans1, double scalar)
+        {
+            if (trans1 == null)
+                throw new ArgumentNullException("trans1");
+            CG_Transform addedTrans = new CG_Transform();
+            addedTrans.Pos = trans1.Pos * scalar;
+            addedTrans.Rot = trans1.Rot * scalar;
+            addedTrans.Scl = trans1.Scl * scalar;
+            return addedTrans;
         }
 
         #region ISerializable Members

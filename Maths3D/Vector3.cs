@@ -12,6 +12,8 @@ namespace TK.BaseLib.Math3D
 DescriptionAttribute("Expand to see Vector's X Y Z.")]
     public class CG_Vector3 : ISerializable
     {
+        public const double EPSILON = 0.0001;
+
         public CG_Vector3()
         {
             this.mx = 0;
@@ -56,12 +58,22 @@ DescriptionAttribute("Expand to see Vector's X Y Z.")]
 
         public bool Null
         {
-            get { return (X == 0 && Y == 0 && Z == 0); }
+            get { return (TypesHelper.DoubleIsFuzzyEqual(X, 0.0, EPSILON) && TypesHelper.DoubleIsFuzzyEqual(Y, 0.0, EPSILON) && TypesHelper.DoubleIsFuzzyEqual(Z, 0.0, EPSILON)); }
         }
 
         public bool Identity
         {
-            get { return (X == 1 && Y == 1 && Z == 1); }
+            get { return (TypesHelper.DoubleIsFuzzyEqual(X, 1.0, EPSILON) && TypesHelper.DoubleIsFuzzyEqual(Y, 1.0, EPSILON) && TypesHelper.DoubleIsFuzzyEqual(Z, 1.0, EPSILON)); }
+        }
+
+        public bool FuzzyEquals(CG_Vector3 vec, double epsilon)
+        {
+            return (TypesHelper.DoubleIsFuzzyEqual(X, vec.X, epsilon) && TypesHelper.DoubleIsFuzzyEqual(Y, vec.Y, epsilon) && TypesHelper.DoubleIsFuzzyEqual(Z, vec.Z, epsilon));
+        }
+
+        public bool FuzzyEquals(CG_Vector3 vec)
+        {
+            return FuzzyEquals(vec, EPSILON);
         }
 
         // Returns the dot product of the current vector and
@@ -98,6 +110,26 @@ DescriptionAttribute("Expand to see Vector's X Y Z.")]
         }
 
         // Returns a new vector with the contents
+        // multiplied together.
+        public static CG_Vector3 operator *(CG_Vector3 vec1, double scalar)
+        {
+            if (vec1 == null)
+                throw new ArgumentNullException("vec1");
+            return new CG_Vector3(vec1.X * scalar, vec1.Y * scalar, vec1.Z * scalar);
+        }
+
+        // Returns a new vector with the contents
+        // divided together.
+        public static CG_Vector3 operator /(CG_Vector3 vec1, CG_Vector3 vec2)
+        {
+            if (vec1 == null)
+                throw new ArgumentNullException("vec1");
+            if (vec2 == null)
+                throw new ArgumentNullException("vec2");
+            return new CG_Vector3(vec1.X / vec2.X, vec1.Y / vec2.Y, vec1.Z / vec2.Z);
+        }
+
+        // Returns a new vector with the contents
         // substracted together.
         public static CG_Vector3 operator -(CG_Vector3 vec1, CG_Vector3 vec2)
         {
@@ -106,6 +138,17 @@ DescriptionAttribute("Expand to see Vector's X Y Z.")]
             if (vec2 == null)
                 throw new ArgumentNullException("vec2");
             return new CG_Vector3(vec1.X - vec2.X, vec1.Y - vec2.Y, vec1.Z - vec2.Z);
+        }
+
+        // Returns a new vector with the contents
+        // added together.
+        public static CG_Vector3 operator +(CG_Vector3 vec1, CG_Vector3 vec2)
+        {
+            if (vec1 == null)
+                throw new ArgumentNullException("vec1");
+            if (vec2 == null)
+                throw new ArgumentNullException("vec2");
+            return new CG_Vector3(vec1.X + vec2.X, vec1.Y + vec2.Y, vec1.Z + vec2.Z);
         }
 
         #region ISerializable Members

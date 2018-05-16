@@ -58,6 +58,8 @@
     <Compile Include="Checking\CheckList.cs" />
     <Compile Include="Checking\CheckLogic.cs" />
     <Compile Include="Checking\CheckParameter.cs" />
+    <Compile Include="CSCodeEval\CSInterpreter.cs" />
+    <Compile Include="ExceptionHelper.cs" />
     <Compile Include="Geometry\CG_Curve.cs" />
     <Compile Include="Geometry\CG_Geometry.cs" />
     <Compile Include="Geometry\CG_GeometryData.cs" />
@@ -66,6 +68,11 @@
     <Compile Include="Geometry\CG_PolyMesh.cs" />
     <Compile Include="Geometry\WorkerClasses\DeformerPointWeight.cs" />
     <Compile Include="ColorHelper.cs" />
+    <Compile Include="IOrderedDictionary.cs" />
+    <Compile Include="Mappings\Mapper.cs" />
+    <Compile Include="Mappings\PossibleOtherMappingsConverter.cs" />
+    <Compile Include="Mappings\MappingItem.cs" />
+    <Compile Include="Mappings\Mapping.cs" />
     <Compile Include="Maths3D\Interpolate.cs" />
     <Compile Include="CustomData\ITGVNode.cs" />
     <Compile Include="Animation\KeyMap.cs" />
@@ -74,8 +81,10 @@
     <Compile Include="Maths3D\Transform\Scale.cs" />
     <Compile Include="Maths3D\Transform\Transform.cs" />
     <Compile Include="Maths3D\Vector3.cs" />
+    <Compile Include="OrderedDictionary.cs" />
     <Compile Include="PathHelper.cs" />
     <Compile Include="Picture\PictureHelper.cs" />
+    <Compile Include="Mappings\PossibleMappingsConverter.cs" />
     <Compile Include="Presets\PresetSystem.cs" />
     <Compile Include="Presets\SaveableData.cs" />
     <Compile Include="Processes\BenchMarker.cs" />
@@ -88,9 +97,11 @@
     <Compile Include="Processes\Tracer.cs" />
     <Compile Include="Processes\TrackedProcess.cs" />
     <Compile Include="Presets\SaveablePreset.cs" />
+    <Compile Include="PropertyComparer.cs" />
     <Compile Include="PropertySorter.cs" />
     <Compile Include="ReflectionHelper.cs" />
     <Compile Include="SerializationHelper.cs" />
+    <Compile Include="SortableBindingList.cs" />
     <Compile Include="Time\TimeCode.cs" />
     <Compile Include="TK_INFO.cs" />
     <Compile Include="Versions\ReleaseInfo.cs" />

@@ -119,10 +119,34 @@ namespace TK.BaseLib.Animation.KeysCurves
 
         public void Scale(double inScale, double inRef)
         {
+            if (_staticValue != null && (_staticValue is double || _staticValue is float))
+            {
+                double doubleValue = (double)(_staticValue is double ? (double)_staticValue : (float)_staticValue);
+                _staticValue = (doubleValue - inRef) * inScale + inRef;
+            }
+            else
+            {
+                foreach (Key key in _keys)
+                {
+                    key.Scale(inScale, inRef);
+                }
+            }
+        }
+
+        public AnimCurve Copy()
+        {
+            AnimCurve clonedCurve = new AnimCurve(_channelName, _channelAccessName, _channelParent);
+
+            clonedCurve.StaticValue = _staticValue;
+            clonedCurve.BExtrapolation = _bExtrapolation;
+            clonedCurve.AExtrapolation = _aExtrapolation;
+
             foreach (Key key in _keys)
             {
-                key.Scale(inScale, inRef);
+                clonedCurve.AddKey(key.Time, key.Value, key.BTangentTime, key.BTangentValue, key.ATangentTime, key.ATangentValue);
             }
+
+            return clonedCurve;
         }
     }
 }

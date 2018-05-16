@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
+using System.Collections;
 
 namespace TK.BaseLib.CustomData
 {
@@ -64,6 +65,21 @@ namespace TK.BaseLib.CustomData
                 Keys.Add(inKey);
                 Values.Add(inValue);
                 dictionary.Add(inKey, inValue);
+            }
+        }
+
+        public void PushItemInList(string inKey, object inValue)
+        {
+            if (dictionary.ContainsKey(inKey))
+            {
+                (dictionary[inKey] as List<object>).Add(inValue);
+            }
+            else
+            {
+                List<object> objects = new List<object>() { inValue };
+                Keys.Add(inKey);
+                Values.Add(objects);
+                dictionary.Add(inKey, objects);
             }
         }
 

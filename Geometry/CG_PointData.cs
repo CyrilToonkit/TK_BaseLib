@@ -591,6 +591,30 @@ namespace TK.BaseLib.Geometry
             return modified;
         }
 
+        public void PutValueInPlace(double Value, List<string> inFields, bool ExceptGivenFields)
+        {
+            for (int i = 0; i < Fields.Count; i++)
+            {
+                if (inFields != null && inFields.Count > 0)
+                {
+                    if (inFields.Contains(Fields[i]) == !ExceptGivenFields)
+                    {
+                        for (int j = 0; j < PointCount; j++)
+                        {
+                            InternalValues.SetValue(Value, i, j);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int j = 0; j < PointCount; j++)
+                    {
+                        InternalValues.SetValue(Value, i, j);
+                    }
+                }
+            }
+        }
+
         public string FindStaticField(List<int> Indices, double Value)
         {
             bool Equals = true;

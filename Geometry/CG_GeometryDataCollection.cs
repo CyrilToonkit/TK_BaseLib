@@ -8,6 +8,8 @@ namespace TK.BaseLib.Geometry
 {
     public class CG_GeometryDataCollection
     {
+        public const string EnvelopeType = "Envelope";
+
         List<CG_GeometryData> mGeometriesData = new List<CG_GeometryData>();
         public List<CG_GeometryData> GeometriesData
         {
@@ -121,16 +123,27 @@ namespace TK.BaseLib.Geometry
             return null;
         }
 
-        public CG_PointData GetObjectData(string AccessName, string Name)
+        public CG_PointData GetObjectData(string AccessName, string Name, string type)
         {
             CG_GeometryData data = GetObject(AccessName, Name);
 
-            if (data != null && data.Data.Count > 0)
+            if (data != null)
             {
-                return data.Data[0];
+                foreach (CG_PointData pointData in data.Data)
+                {
+                    if (pointData.Type == type)
+                    {
+                        return pointData;
+                    }
+                }
             }
 
             return null;
+        }
+
+        public CG_PointData GetObjectData(string AccessName, string Name)
+        {
+            return GetObjectData(AccessName, Name, EnvelopeType);
         }
 
         public bool HasObject(string AccessName)

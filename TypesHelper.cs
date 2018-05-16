@@ -382,15 +382,12 @@ namespace TK.BaseLib
         /// <returns>The List of strings</returns>
         public static List<string> StringSplit(string inString, string inSeparator, bool inTrim, bool inIgnoreEmpty)
         {
-            string[] saIndices = inString.Split(inSeparator.ToCharArray());
+            string[] saIndices = inString.Split(new string[] { inSeparator }, inIgnoreEmpty ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
             List<string> Strings = new List<string>();
 
             foreach (string sIndex in saIndices)
             {
-                if (!inIgnoreEmpty || !string.IsNullOrEmpty(sIndex))
-                {
-                    Strings.Add(inTrim ? sIndex.Trim() : sIndex);
-                }
+                Strings.Add(inTrim ? sIndex.Trim() : sIndex);
             }
 
             return Strings;

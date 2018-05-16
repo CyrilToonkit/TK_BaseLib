@@ -29,6 +29,13 @@ namespace TK.BaseLib.Processes
             }
         }
 
+        bool _log = false;
+        public bool Log
+        {
+            get { return _log; }
+            set { _log = value; }
+        }
+
         bool _active = false;
         public bool Active
         {
@@ -152,6 +159,11 @@ namespace TK.BaseLib.Processes
         {
             _callStack.Clear();
             _calls.Clear();
+        }
+
+        public bool HaveResults()
+        {
+            return _calls.Count > 0;
         }
     }
 }

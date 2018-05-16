@@ -88,7 +88,122 @@ namespace TK.BaseLib
                 Enum.Parse(typeof(FontStyle), pieces[2], true);
 
             return new Font(pieces[0], TypesHelper.FloatParse(pieces[1]), style);
+        }
 
+        /// <summary>
+        /// Helper for Dictionary Serialization
+        /// </summary>
+        /// <param name="inDic">The Dictionary</param>
+        /// <returns>The serialized Dictionary</returns>
+        public static string SerializeDictionary(Dictionary<string,string> inDic)
+        {
+            List<string> serializedItems = new List<string>();
+
+            foreach (string key in inDic.Keys)
+            {
+                serializedItems.Add(string.Format("{0}:DicValue:{1}", key, inDic[key]));
+            }
+
+            return TypesHelper.Join(serializedItems, "|DicItem|");
+        }
+
+        /// <summary>
+        /// Helper for Dictionary Serialization
+        /// </summary>
+        /// <param name="inDic">The Dictionary</param>
+        /// <returns>The serialized Dictionary</returns>
+        public static string SerializeDictionary(SortedDictionary<string, string> inDic)
+        {
+            List<string> serializedItems = new List<string>();
+
+            foreach (string key in inDic.Keys)
+            {
+                serializedItems.Add(string.Format("{0}:DicValue:{1}", key, inDic[key]));
+            }
+
+            return TypesHelper.Join(serializedItems, "|DicItem|");
+        }
+
+        /// <summary>
+        /// Helper for Dictionary Deserialization
+        /// </summary>
+        /// <param name="inDic">The serialized Dictionary</param>
+        /// <returns>The Dictionary</returns>
+        public static Dictionary<string, string> DeserializeDictionary(string inDic)
+        {
+            Dictionary<string,string> dic = new Dictionary<string,string>();
+
+            if (string.IsNullOrEmpty(inDic))
+            {
+                return dic;
+            }
+
+            List<string> stringSplit = TypesHelper.StringSplit(inDic, "|DicItem|", false, true);
+
+            foreach (string stringItem in stringSplit)
+            {
+                List<string> itemSplit = TypesHelper.StringSplit(stringItem, ":DicValue:", false, false);
+
+                if (itemSplit.Count == 2)
+                {
+                    dic.Add(itemSplit[0], itemSplit[1]);
+                }
+            }
+
+            return dic;
+        }
+
+        /// <summary>
+        /// Helper for Dictionary Deserialization
+        /// </summary>
+        /// <param name="inDic">The serialized Dictionary</param>
+        /// <returns>The Dictionary</returns>
+        public static SortedDictionary<string, string> DeserializeSortedDictionary(string inDic)
+        {
+            SortedDictionary<string, string> dic = new SortedDictionary<string, string>();
+
+            if (string.IsNullOrEmpty(inDic))
+            {
+                return dic;
+            }
+
+            List<string> stringSplit = TypesHelper.StringSplit(inDic, "|DicItem|", false, true);
+
+            foreach (string stringItem in stringSplit)
+            {
+                List<string> itemSplit = TypesHelper.StringSplit(stringItem, ":DicValue:", false, false);
+
+                if (itemSplit.Count == 2)
+                {
+                    dic.Add(itemSplit[0], itemSplit[1]);
+                }
+            }
+
+            return dic;
+        }
+
+        public static string ToCsv(OrderedDictionary<string, string> mapping)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (string key in mapping.Keys)
+            {
+                sb.AppendFormat("{0},{1}\n", key, mapping[key]);
+            }
+
+            return sb.ToString();
+        }
+
+        public static OrderedDictionary<string, string> SortedDictionaryFromCsv(string inCsv)
+        {
+            OrderedDictionary<string, string> dic = new OrderedDictionary<string, string>();
+
+            foreach (string line in inCsv.Split("\n".ToCharArray()))
+            {
+                string[] lineSplit = line.Split(",".ToCharArray());
+                dic.Add(lineSplit[0], lineSplit[1]);
+            }
+
+            return dic;
         }
     }
 }

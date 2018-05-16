@@ -119,7 +119,7 @@ namespace TK.BaseLib.Presets
                 {
                     Directory.CreateDirectory(RootDir.FullName);
                 }
-                catch (Exception e) { error += "Cannot create directory " + RootDir.FullName + "! (" + e.Message + ")"; }
+                catch (Exception e) { error += "Cannot create directory " + RootDir.FullName + "! (" + ExceptionHelper.GetMessages(e) + ")"; }
             }
 
             if (error == "")
@@ -166,7 +166,7 @@ namespace TK.BaseLib.Presets
                 mPresets.Add(inName, inPreset);
                 LoadPreset(inPreset);
             }
-            catch (Exception e) { error += "Cannot create instance of type " + _presetType.Name + "! (" + e.Message + ")"; inPreset = null; }
+            catch (Exception e) { error += "Cannot create instance of type " + _presetType.Name + "! (" + ExceptionHelper.GetMessages(e) + ")"; inPreset = null; }
 
             return error;
         }

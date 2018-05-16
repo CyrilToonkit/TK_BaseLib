@@ -115,11 +115,11 @@ namespace TK.BaseLib.Animation.KeysCurves
 
         internal void Scale(double inScale, double inRef)
         {
-            if (_value is double)
+            if (_value is double || _value is float)
             {
-                double doubleValue = (double)_value;
-                double doublebValue = (double)_bTangentValue;
-                double doubleaValue = (double)_aTangentValue;
+                double doubleValue = (double)(_value is double ?  (double)_value : (float)_value);
+                double doublebValue = (double)(_bTangentValue is double ? (double)_bTangentValue : (float)_bTangentValue);
+                double doubleaValue = (double)(_aTangentValue is double ? (double)_aTangentValue : (float)_aTangentValue);
 
                 _value = (doubleValue - inRef) * inScale + inRef;
                 _bTangentValue = doublebValue * inScale;

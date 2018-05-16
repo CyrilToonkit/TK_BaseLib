@@ -110,7 +110,7 @@ namespace TK.BaseLib.Animation
                                     Actions.Add(action);
                                 }
                             }
-                            catch (Exception e) { errors += "Load xml " + e.Message; }
+                            catch (Exception e) { errors += "Load xml " + ExceptionHelper.GetMessages(e); }
                             
                             stream.Close();
                         }
@@ -136,7 +136,7 @@ namespace TK.BaseLib.Animation
                     {
                         repo.Create();
                     }
-                    catch (Exception e) { errors += "Action Library : Create folder error (" + e.Message + ")"; }
+                    catch (Exception e) { errors += "Action Library : Create folder error (" + ExceptionHelper.GetMessages(e) + ")"; }
                 }
 
                 //Control Maps
@@ -150,7 +150,7 @@ namespace TK.BaseLib.Animation
                     {
                         Maps = (ControlsMap)controlsMapSerializer.Deserialize(stream);
                     }
-                    catch (Exception e) { errors += "Load xml " + e.Message; }
+                    catch (Exception e) { errors += "Load xml " + ExceptionHelper.GetMessages(e); }
 
                     stream.Close();
                 }
@@ -187,7 +187,7 @@ namespace TK.BaseLib.Animation
                                     ModelInfos.Add(modelInfo.Name, modelInfo);
                                 }
                             }
-                            catch (Exception e) { errors += "Load Animation Meta " + e.Message; }
+                            catch (Exception e) { errors += "Load Animation Meta " + ExceptionHelper.GetMessages(e); }
 
                             stream.Close();
                         }
@@ -199,7 +199,7 @@ namespace TK.BaseLib.Animation
                     {
                         modelinfosFile.Create();
                     }
-                    catch (Exception e) { errors += "Action Library : Create folder error (" + e.Message + ")"; }
+                    catch (Exception e) { errors += "Action Library : Create folder error (" + ExceptionHelper.GetMessages(e) + ")"; }
                 }
 
                 if (RefModelInfo == null)
@@ -328,7 +328,7 @@ namespace TK.BaseLib.Animation
                         myWriter = new StreamWriter(actionDir.FullName + "\\" + action.Name + ".act");
                         actionSerializer.Serialize(myWriter, action);
                     }
-                    catch (Exception e) { errors += "Save xml " + e.Message; }
+                    catch (Exception e) { errors += "Save xml " + ExceptionHelper.GetMessages(e); }
                     myWriter.Close();
                 }
             }

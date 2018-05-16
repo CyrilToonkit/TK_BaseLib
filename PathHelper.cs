@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace TK.BaseLib
 {
@@ -120,7 +121,7 @@ namespace TK.BaseLib
             foreach (KeyValuePair<string, string> kvp in PathSubstitutions)
             {
                 ret = ret.Replace(kvp.Key, kvp.Value);
-            }            
+            }
             return ret;
         }
         public static string ContractedPath(string path)
@@ -153,6 +154,14 @@ namespace TK.BaseLib
             }
         }
 
+        public static void RemovePathSubstitution(string token)
+        {
+            if (PathSubstitutions.ContainsKey(token))
+            {
+                PathSubstitutions.Remove(token);
+            }
+        }
+
         private static Dictionary<string, string> sPathSubstitutions = null;
         private static Dictionary<string, string> PathSubstitutions
         {
@@ -164,21 +173,39 @@ namespace TK.BaseLib
             }
         }
 
-        private static void InitPathSubstitutions()
+        public static void InitPathSubstitutions(string root)
         {
             lock (lok)
             {
                 if (sPathSubstitutions == null)
                 {
                     sPathSubstitutions = new Dictionary<string, string>();
-                    string tmp = AppDomain.CurrentDomain.BaseDirectory;
-                    sPathSubstitutions.Add("%OSCARPATH%", tmp);
-                    sPathSubstitutions.Add("%OSCARDATAPATH%", Path.Combine( tmp, "Data"));
-                    sPathSubstitutions.Add("$RIGSPATH", Path.Combine(tmp, "Data\\Rigs"));
+
+                    sPathSubstitutions.Add("%OSCARPATH%", root);
+                    sPathSubstitutions.Add("%OSCARDATAPATH%", Path.Combine(root, "Data"));
+                    sPathSubstitutions.Add("$RIGSPATH", Path.Combine(root, "Data\\Rigs"));
                 }
             }
         }
 
+        private static void InitPathSubstitutions()
+        {
+            InitPathSubstitutions(AppDomain.CurrentDomain.BaseDirectory);
+        }
+
+        public static List<string> GetSubstitutions()
+        {
+            return new List<string>(PathSubstitutions.Keys);
+        }
+
         private static object lok = new object();
+
+        public static string MakeValidFileName(string name)
+        {
+            string invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
+            string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
+
+            return Regex.Replace(name, invalidRegStr, "_");
+        }
     }
 }
