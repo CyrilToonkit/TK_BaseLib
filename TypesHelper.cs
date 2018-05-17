@@ -547,7 +547,6 @@ namespace TK.BaseLib
         }
 
         // *** CUSTOM TYPES ***
-
         public static List<CG_Vector3> GeometryToListVector(CG_Geometry inGeo)
         {
             List<CG_Vector3> positions = new List<CG_Vector3>();
