@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using TK.BaseLib.Geometry;
 using TK.BaseLib.Math3D;
 
-//COMMENTS OK
 namespace TK.BaseLib
 {
     /// <summary>
