@@ -144,7 +144,10 @@ namespace TK.BaseLib.CSCodeEval
             {
                 argsText += argKey + ",";
             }
-            argsText = argsText.Substring(0, argsText.Length - 1);
+
+            if(argsText.Length > 1)
+                argsText = argsText.Substring(0, argsText.Length - 1);
+
             sb.Append("public object EvalCode("+argsText+"){\n");
             sb.Append(sCSCode + "\n");
             if (!sCSCode.Contains("return "))
