@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace TK.BaseLib.CSCodeEval
 {
@@ -43,7 +44,28 @@ namespace TK.BaseLib.CSCodeEval
 
     public static class CSInterpreter
     {
-        public static InterpreterResult Eval(string sCSCode, string sSCMethods, string sCustomAssemblies, string sCustomUsings, Dictionary<string, object> arguments)
+
+        [System.Diagnostics.DebuggerNonUserCode]
+        [System.Diagnostics.DebuggerStepThrough]
+        private static object Invoke(MethodInfo method, Object target, params Object[] invokeArgs)
+        {
+            try
+            {
+                return method.Invoke(target, invokeArgs);
+            }
+            catch (TargetInvocationException te)
+            {
+                if (te.InnerException == null)
+                    throw;
+                Exception innerException = te.InnerException;
+
+                ThreadStart savestack = Delegate.CreateDelegate(typeof(ThreadStart), innerException, "InternalPreserveStackTrace", false, false) as ThreadStart;
+                if (savestack != null) savestack();
+                throw innerException;// -- now we can re-throw without trashing the stack
+            }
+        }
+
+        public static InterpreterResult Eval(string sCSCode, string sSCMethods, string sCustomAssemblies, string sCustomUsings, Dictionary<string, object> arguments, bool safe)
         {
             //validate Custom Assemblies
             string envFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\";
@@ -93,6 +115,9 @@ namespace TK.BaseLib.CSCodeEval
             cp.ReferencedAssemblies.Add("system.data.dll");
             cp.ReferencedAssemblies.Add("system.windows.forms.dll");
             cp.ReferencedAssemblies.Add("system.drawing.dll");
+            cp.IncludeDebugInformation = true;
+            cp.GenerateInMemory = false;
+            cp.OutputAssembly = "InterpreterAssembly.dll";
 
             //Custom assemblies
             foreach (string customPath in CustomAssembliesPath)
@@ -118,24 +143,7 @@ namespace TK.BaseLib.CSCodeEval
 
             List<string> argNames = new List<string>(arguments.Keys);
 
-            //sb.Append("namespace CSCodeEvaler{ \n");
             sb.Append("public class CSCodeEvaler{ \n");
-            /*
-            foreach (string argKey in argNames)
-            {
-                sb.Append(argKey + ";\n");
-            }
-            
-            sb.Append("public CSCodeEvaler(params object[] arguments){\n");
-            int cnt = 0;
-            foreach (string argKey in argNames)
-            {
-                string argType = argKey.Split(' ')[0];
-                sb.Append("    " + argKey + " = (" + argType + ")arguments[" + cnt.ToString() + "];\n");
-                cnt++;
-            }
-            sb.Append("} \n");
-            */
 
             sb.Append(sSCMethods);
 
@@ -145,10 +153,10 @@ namespace TK.BaseLib.CSCodeEval
                 argsText += argKey + ",";
             }
 
-            if(argsText.Length > 1)
+            if (argsText.Length > 1)
                 argsText = argsText.Substring(0, argsText.Length - 1);
 
-            sb.Append("public object EvalCode("+argsText+"){\n");
+            sb.Append("public object EvalCode(" + argsText + "){\n");
             sb.Append(sCSCode + "\n");
             if (!sCSCode.Contains("return "))
             {
@@ -156,7 +164,6 @@ namespace TK.BaseLib.CSCodeEval
             }
             sb.Append("} \n");
             sb.Append("} \n");
-            //sb.Append("}\n");
 
             string code = sb.ToString();
 
@@ -184,10 +191,16 @@ namespace TK.BaseLib.CSCodeEval
 
             try
             {
-                returnedValue = mi.Invoke(o, parameters);
+                returnedValue = CSInterpreter.Invoke(mi, o, parameters);
             }
             catch (Exception e)
             {
+                if (!safe)
+                {
+                    e.HelpLink += sCSCode;
+                    throw;
+                }
+
                 string msg = e.Message + "\n" + e.StackTrace;
                 if (e.InnerException != null)
                 {
