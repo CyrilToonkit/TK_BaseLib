@@ -116,8 +116,9 @@ namespace TK.BaseLib.CSCodeEval
             cp.ReferencedAssemblies.Add("system.windows.forms.dll");
             cp.ReferencedAssemblies.Add("system.drawing.dll");
             cp.IncludeDebugInformation = true;
-            cp.GenerateInMemory = false;
-            cp.OutputAssembly = "InterpreterAssembly.dll";
+            cp.GenerateInMemory = true;
+            /*cp.GenerateInMemory = false;
+            cp.OutputAssembly = "InterpreterAssembly.dll";*/
 
             //Custom assemblies
             foreach (string customPath in CustomAssembliesPath)
@@ -207,6 +208,10 @@ namespace TK.BaseLib.CSCodeEval
                     msg = e.InnerException.Message + "\n" + e.InnerException.StackTrace;
                 }
                 return new InterpreterResult(code, false, msg);
+            }
+            finally
+            {
+
             }
 
             return new InterpreterResult(code, true, returnedValue);
