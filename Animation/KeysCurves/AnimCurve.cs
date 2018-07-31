@@ -122,7 +122,10 @@ namespace TK.BaseLib.Animation.KeysCurves
             if (_staticValue != null && (_staticValue is double || _staticValue is float))
             {
                 double doubleValue = (double)(_staticValue is double ? (double)_staticValue : (float)_staticValue);
-                _staticValue = (doubleValue - inRef) * inScale + inRef;
+                if(_staticValue is float)
+                    _staticValue = (float)((doubleValue - inRef) * inScale + inRef);
+                else
+                    _staticValue = (doubleValue - inRef) * inScale + inRef;
             }
             else
             {
