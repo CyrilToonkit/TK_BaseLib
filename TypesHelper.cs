@@ -546,6 +546,21 @@ namespace TK.BaseLib
             return false;
         }
 
+        // *** DICT ***
+
+        public static Dictionary<string, string> GetReversedDictionary(Dictionary<string, string> inDict)
+        {
+            Dictionary<string, string> reversedDict = new Dictionary<string, string>();
+
+            foreach (KeyValuePair<string, string> entry in inDict)
+            {
+                if (!reversedDict.ContainsKey(entry.Value))
+                    reversedDict.Add(entry.Value, entry.Key);
+            }
+
+            return reversedDict;
+        }
+
         // *** CUSTOM TYPES ***
         public static List<CG_Vector3> GeometryToListVector(CG_Geometry inGeo)
         {
