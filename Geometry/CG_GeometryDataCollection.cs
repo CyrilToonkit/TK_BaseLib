@@ -41,10 +41,23 @@ namespace TK.BaseLib.Geometry
         public void Add(CG_GeometryData data)
         {
             mGeometriesData.Add(data);
-            mGeosDic.Add(data.Geometry.AccessName, data);
+
+            if (!mGeosDic.ContainsKey(data.Geometry.AccessName))
+            {
+                mGeosDic.Add(data.Geometry.AccessName, data);
+            }
+            else
+            {
+                mGeosDic[data.Geometry.AccessName] = data;
+            }
+
             if (!mGeosDic.ContainsKey(data.Geometry.Name))
             {
                 mGeosDic.Add(data.Geometry.Name, data);
+            }
+            else
+            {
+                mGeosDic[data.Geometry.Name] = data;
             }
         }
 
