@@ -455,6 +455,37 @@ namespace TK.BaseLib
         }
 
         /// <summary>
+        /// Join a string List as a string
+        /// </summary>
+        /// <param name="inList">List of string to be joined</param>
+        /// <returns>the joined string</returns>
+        public static string Join(object[] inList, string inSeparator)
+        {
+            string joined = "";
+            if (inList.Length > 0)
+            {
+                foreach (object s in inList)
+                {
+                    joined += s.ToString() + inSeparator;
+                }
+
+                joined = joined.Substring(0, joined.Length - 1);
+            }
+
+            return joined;
+        }
+
+        /// <summary>
+        /// Join a string List as a string
+        /// </summary>
+        /// <param name="inList">List of string to be joined</param>
+        /// <returns>the joined string, comma separated</returns>
+        public static string Join(object[] inList)
+        {
+            return Join(inList, ",");
+        }
+
+        /// <summary>
         /// Copy a string List to a new one
         /// </summary>
         /// <param name="inSource">The source list</param>
@@ -490,6 +521,22 @@ namespace TK.BaseLib
             }
 
             return inList;
+        }
+
+        public static string Truncate(string inString, int inMaxLen, bool inWarn)
+        {
+            if (string.IsNullOrEmpty(inString) || inString.Length <= inMaxLen)
+                return inString;
+
+            if(!inWarn)
+                return inString.Substring(0, inMaxLen);
+
+            return inString.Substring(0, inMaxLen) + "...(Truncated)";
+        }
+
+        public static string Truncate(string inString)
+        {
+            return Truncate(inString, 256, true);
         }
 
         /// <summary>
@@ -595,6 +642,33 @@ namespace TK.BaseLib
             crv.PointPositions = pointPos;
 
             return crv;
+        }
+
+        public static string NiceStackTrace(System.Diagnostics.StackTrace inStack, int inDepth, int skipTop)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            int length = inDepth > 0 ? Math.Min(inDepth, inStack.FrameCount) : inStack.FrameCount;
+
+            skipTop = Math.Max(skipTop, 0);
+            skipTop = Math.Min(skipTop, length - 1);
+
+            for (int i = skipTop; i < length; i++)
+            {
+                if (i > skipTop)
+                    sb.Append(" > ");
+
+                System.Diagnostics.StackFrame frame = inStack.GetFrame(i);
+
+                sb.Append(frame.GetMethod());
+            }
+
+            return sb.ToString();
+        }
+
+        public static string NiceStackTrace(System.Diagnostics.StackTrace inStack, int skipTop)
+        {
+            return NiceStackTrace(inStack, -1, skipTop);
         }
     }
 }

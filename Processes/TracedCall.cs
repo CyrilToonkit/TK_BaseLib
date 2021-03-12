@@ -7,13 +7,22 @@ namespace TK.BaseLib.Processes
 {
     public class TracedCall
     {
-        string _name = "VOID";
+        string _name = string.Empty;
         DateTime _start = DateTime.Now;
         DateTime _end = DateTime.Now;
+        object _result = null;
+        string _info = string.Empty;
+
 
         public TracedCall(string cmdname)
         {
             _name = cmdname;
+        }
+
+        public TracedCall(string cmdname, object result)
+        {
+            _name = cmdname;
+            _result = result;
         }
 
         internal void Stop()
@@ -34,6 +43,30 @@ namespace TK.BaseLib.Processes
             get
             {
                 return _name;
+            }
+        }
+
+        public object Result
+        {
+            get
+            {
+                return _result;
+            }
+            set
+            {
+                _result = value;
+            }
+        }
+
+        public string Info
+        {
+            get
+            {
+                return _info;
+            }
+            set
+            {
+                _info = value;
             }
         }
 

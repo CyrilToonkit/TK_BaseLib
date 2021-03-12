@@ -74,7 +74,7 @@ namespace TK.BaseLib.Processes
                 _callStack.Add(new TracedCall(cmdname));
             }
         }
-
+        
         public void EndCall(string cmdname)
         {
             if (_active)
@@ -91,6 +91,24 @@ namespace TK.BaseLib.Processes
             }
         }
 
+        public void EndCall(string cmdname, object objectResult, string info)
+        {
+            if (_active)
+            {
+                //Find call
+                for (int i = _callStack.Count - 1; i >= 0; i--)
+                {
+                    if (_callStack[i].Name == cmdname)
+                    {
+                        _callStack[i].Stop();
+                        _callStack[i].Result = objectResult;
+                        _callStack[i].Info = info;
+                        break;
+                    }
+                }
+            }
+        }
+        
         public void EndCall(object objectKey)
         {
             if (_active)
@@ -102,6 +120,25 @@ namespace TK.BaseLib.Processes
                     if (_callStack[i].Name == cmdname)
                     {
                         _callStack[i].Stop();
+                        break;
+                    }
+                }
+            }
+        }
+        
+        public void EndCall(object objectKey, object objectResult, string info)
+        {
+            if (_active)
+            {
+                string cmdname = objectKey.ToString();
+
+                for (int i = _callStack.Count - 1; i >= 0; i--)
+                {
+                    if (_callStack[i].Name == cmdname)
+                    {
+                        _callStack[i].Stop();
+                        _callStack[i].Result = objectResult;
+                        _callStack[i].Info = info;
                         break;
                     }
                 }
@@ -149,7 +186,7 @@ namespace TK.BaseLib.Processes
 
             foreach (TracedCall call in _callStack)
             {
-                csv.Append(string.Format("{0};{1};{2:0.000}\n", call.Name, call.Start, call.Duration.TotalSeconds));
+                csv.Append(string.Format("{0};{1};{2:0.000};{3};{4}\n", call.Name, call.Start, call.Duration.TotalSeconds, TypesHelper.Join(call.Result as object[], "|"), call.Info));
             }
 
             File.WriteAllText(inPath, csv.ToString());
