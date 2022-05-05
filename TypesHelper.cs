@@ -399,18 +399,16 @@ namespace TK.BaseLib
         /// <returns>the joined string</returns>
         public static string Join(List<string> inList, string inSeparator)
         {
-            string joined = "";
-            if (inList.Count > 0)
+            StringBuilder joined = new StringBuilder();
+            for (int i=0; i < inList.Count; i++)
             {
-                foreach (string s in inList)
-                {
-                    joined += s + inSeparator;
-                }
+                joined.Append(inList[i]);
 
-                joined = joined.Substring(0, joined.Length - inSeparator.Length);
+                if (i < inList.Count - 1)
+                    joined.Append(inSeparator);
             }
 
-            return joined;
+            return joined.ToString();
         }
 
         /// <summary>
@@ -430,18 +428,16 @@ namespace TK.BaseLib
         /// <returns>the joined string</returns>
         public static string Join(string[] inList, string inSeparator)
         {
-            string joined = "";
-            if (inList.Length > 0)
+            StringBuilder joined = new StringBuilder();
+            for (int i = 0; i < inList.Length; i++)
             {
-                foreach (string s in inList)
-                {
-                    joined += s + inSeparator;
-                }
+                joined.Append(inList[i]);
 
-                joined = joined.Substring(0, joined.Length - 1);
+                if (i < inList.Length - 1)
+                    joined.Append(inSeparator);
             }
 
-            return joined;
+            return joined.ToString();
         }
 
         /// <summary>
