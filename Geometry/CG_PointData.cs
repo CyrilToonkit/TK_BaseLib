@@ -139,7 +139,7 @@ namespace TK.BaseLib.Geometry
                             curVal = (double)InternalValues.GetValue(Dim0, Dim1);
                         }
 
-                        if (oldVal == curVal || (curVal > EPSILON && TypesHelper.DoubleIsFuzzyEqual(oldVal, curVal, Math.Pow(Math.Max(0, 15 - mCompression), -1))))
+                        if (oldVal == curVal || TypesHelper.DoubleIsFuzzyEqual(oldVal, curVal, Math.Pow(10, -Math.Max(0, 15 - mCompression))))
                         {
                             map[mapEnum]++;
                         }
