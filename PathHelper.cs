@@ -122,6 +122,13 @@ namespace TK.BaseLib
             {
                 ret = ret.Replace(kvp.Key, kvp.Value);
             }
+            ret = Environment.ExpandEnvironmentVariables(ret);
+
+            if(ret.Contains(Path.DirectorySeparatorChar.ToString()))
+            {
+                ret = Path.GetFullPath(ret);
+            }
+
             return ret;
         }
         public static string ContractedPath(string path)
