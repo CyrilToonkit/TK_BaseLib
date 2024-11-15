@@ -145,8 +145,10 @@ namespace TK.BaseLib.Processes
             }
         }
 
-        public string GetText()
+        public List<string> GetTexts()
         {
+            List<string> texts = new List<string>();
+
             //Fill callData
             long totalTicks = 0;
             
@@ -165,21 +167,27 @@ namespace TK.BaseLib.Processes
 
             if (_calls.Count == 0)
             {
-                return "No values...\n";
+                texts.Add("No values...");
+                return texts;
             }
 
-            string text = string.Format("\n *** Commands diagnostic : {0} called in {1:0.0} seconds ({2:0} cmds/s). Total time = {3:0.0} seconds ({4:0.000} seconds processing) ***\n", _callStack.Count, totalDuration.TotalSeconds, _callStack.Count / totalDuration.TotalSeconds, bm.Seconds, bm.Seconds - totalDuration.TotalSeconds);
+            texts.Add(string.Format("*** Commands diagnostic : {0} called in {1:0.0} seconds ({2:0} cmds/s). Total time = {3:0.0} seconds ({4:0.000} seconds processing) ***", _callStack.Count, totalDuration.TotalSeconds, _callStack.Count / totalDuration.TotalSeconds, bm.Seconds, bm.Seconds - totalDuration.TotalSeconds));
 
             foreach (CallData data in _calls.Values)
             {
                 double totalSeconds = data.TotalDuration.TotalSeconds;
-                text += string.Format("{0,-20} called {1} times, {2:0.000}s avg, {3:0.000}s total={4:0.0}% ({5:0.000}s < {6:0.000}s)\n", data.Name, data.NbCalls, data.AverageDuration.TotalSeconds, totalSeconds, 100 * totalSeconds / totalDuration.TotalSeconds, data.MinimumDuration.TotalSeconds, data.MaximumDuration.TotalSeconds);
+                texts.Add(string.Format("{0,-20} called {1} times, {2:0.000}s avg, {3:0.000}s total={4:0.0}% ({5:0.000}s < {6:0.000}s)", data.Name, data.NbCalls, data.AverageDuration.TotalSeconds, totalSeconds, 100 * totalSeconds / totalDuration.TotalSeconds, data.MinimumDuration.TotalSeconds, data.MaximumDuration.TotalSeconds));
             }
 
-            return text;
+            return texts;
         }
 
-        public void SaveCsv(string inPath)
+        public string GetText()
+        {
+            return TypesHelper.Join(GetTexts(), "\n");
+        }
+
+            public void SaveCsv(string inPath)
         {
             StringBuilder csv = new StringBuilder();
             csv.Append("Cmd;Start;Duration\n");
