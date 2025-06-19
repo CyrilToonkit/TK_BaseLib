@@ -199,7 +199,12 @@ namespace TK.BaseLib
 
             foreach (string line in inCsv.Split("\n".ToCharArray()))
             {
-                string[] lineSplit = line.Split(",".ToCharArray());
+                string cleanLine = line;
+                if (cleanLine.EndsWith("\r"))
+                {
+                    cleanLine = cleanLine.Substring(0, line.Length - 1);
+                }
+                string[] lineSplit = cleanLine.Split(",".ToCharArray());
                 dic.Add(lineSplit[0], lineSplit[1]);
             }
 
