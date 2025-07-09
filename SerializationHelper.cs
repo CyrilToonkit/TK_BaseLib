@@ -199,6 +199,9 @@ namespace TK.BaseLib
 
             foreach (string line in inCsv.Split("\n".ToCharArray()))
             {
+                if (string.IsNullOrEmpty(line))
+                    continue;
+
                 string cleanLine = line;
                 if (cleanLine.EndsWith("\r"))
                 {
